@@ -4,7 +4,7 @@ export default function Demo() {
   return (
     <ScrollExpandMedia
       mediaType="video"
-      mediaSrc="https://www.youtube.com/watch?v=VOTRE_VIDEO_ID"
+      mediaSrc="/demo.mp4"
       bgImageSrc="/demo-bg.svg"
       title="Découvrez notre approche"
       date="Formation IA"
