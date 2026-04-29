@@ -47,11 +47,17 @@ export default function ScrollExpandMedia({
   }, [mediaType]);
 
   useEffect(() => {
+    const isSectionActive = () => {
+      if (!sectionRef.current) return false;
+      const rect = sectionRef.current.getBoundingClientRect();
+      // Section is active when its top is within the viewport
+      return rect.top <= 10 && rect.top > -window.innerHeight;
+    };
+
     const handleWheel = (e: Event) => {
       const we = e as unknown as { deltaY: number; preventDefault: () => void };
       if (!mediaFullyExpanded) {
-        // Only intercept when user is at the very top of the page
-        if (window.scrollY > 10) return;
+        if (!isSectionActive()) return;
         we.preventDefault();
         const delta = we.deltaY * 0.0009;
         setScrollProgress((prev) => {
@@ -60,7 +66,7 @@ export default function ScrollExpandMedia({
           else if (next < 0.75) { setShowContent(false); }
           return next;
         });
-      } else if (we.deltaY < 0 && window.scrollY <= 5) {
+      } else if (we.deltaY < 0 && isSectionActive()) {
         setMediaFullyExpanded(false);
         we.preventDefault();
       }
@@ -76,7 +82,7 @@ export default function ScrollExpandMedia({
       if (!touchStartY) return;
       const deltaY = touchStartY - te.touches[0].clientY;
       if (!mediaFullyExpanded) {
-        if (window.scrollY > 10) return;
+        if (!isSectionActive()) return;
         te.preventDefault();
         const factor = deltaY < 0 ? 0.008 : 0.005;
         const delta = deltaY * factor;
@@ -87,7 +93,7 @@ export default function ScrollExpandMedia({
           return next;
         });
         setTouchStartY(te.touches[0].clientY);
-      } else if (deltaY < -20 && window.scrollY <= 5) {
+      } else if (deltaY < -20 && isSectionActive()) {
         setMediaFullyExpanded(false);
         te.preventDefault();
       }
