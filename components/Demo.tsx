@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Play, Pause, Volume2, Volume1, VolumeX } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
+import { ShineBorder } from "@/components/ui/shine-border";
 
 /* ── Helpers ── */
 const formatTime = (seconds: number) => {
@@ -238,7 +239,14 @@ export default function Demo() {
           </h2>
         </div>
 
-        <VideoPlayer src="/demo.mp4" />
+        <ShineBorder
+          borderRadius={16}
+          borderWidth={1.5}
+          duration={10}
+          color={["#ff6200", "#d4783a", "#ffe000", "#c8622a", "#ff00ee"]}
+        >
+          <VideoPlayer src="/demo.mp4" />
+        </ShineBorder>
       </div>
     </section>
   );
