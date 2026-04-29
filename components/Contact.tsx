@@ -95,8 +95,8 @@ export default function Contact() {
                   {avatars.map(({ initials, bg }) => (
                     <div
                       key={initials}
-                      className="w-9 h-9 rounded-full flex items-center justify-center ring-2"
-                      style={{ backgroundColor: bg, ringColor: "var(--section-bg-primary)", fontSize: "0.7rem", fontWeight: 600, color: "#f0ece2", fontFamily: "var(--font-inter)" }}
+                      className="w-9 h-9 rounded-full flex items-center justify-center"
+                      style={{ backgroundColor: bg, outline: "2px solid var(--section-bg-primary)", fontSize: "0.7rem", fontWeight: 600, color: "#f0ece2", fontFamily: "var(--font-inter)" }}
                     >
                       {initials}
                     </div>
