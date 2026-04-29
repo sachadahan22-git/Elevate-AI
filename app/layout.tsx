@@ -52,13 +52,13 @@ export default function RootLayout({
   return (
     <html
       lang="fr"
-      className={`${cormorant.variable} ${inter.variable} ${jetbrainsMono.variable} h-full`}
+      className={`${cormorant.variable} ${inter.variable} ${jetbrainsMono.variable} h-full dark`}
     >
       <head>
-        {/* Prevent flash of wrong theme */}
+        {/* Dark mode by default — only remove if user explicitly chose light */}
         <script
           dangerouslySetInnerHTML={{
-            __html: `(function(){var t=localStorage.getItem('theme');if(t==='dark'){document.documentElement.classList.add('dark');}})();`,
+            __html: `(function(){var t=localStorage.getItem('theme');if(t==='light'){document.documentElement.classList.remove('dark');}})();`,
           }}
         />
       </head>
