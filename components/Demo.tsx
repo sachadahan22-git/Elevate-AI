@@ -241,9 +241,8 @@ export default function Demo() {
 
         <ShineBorder
           borderRadius={16}
-          borderWidth={1.5}
-          duration={10}
-          color={["#ff6200", "#d4783a", "#ffe000", "#c8622a", "#ff00ee"]}
+          borderWidth={4}
+          duration={5}
         >
           <VideoPlayer src="/demo.mp4" />
         </ShineBorder>

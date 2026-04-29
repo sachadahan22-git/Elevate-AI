@@ -18,18 +18,17 @@ export function ShineBorder({
   className,
   children,
 }: ShineBorderProps) {
-  // Conic gradient: transparent for ~320°, rainbow beam for ~40°
+  // Full 360° rainbow — seamless loop (start color = end color)
   const gradient = `conic-gradient(
     from 0deg,
-    transparent 0deg,
-    transparent 310deg,
-    #ff6200 320deg,
-    #ffe000 330deg,
-    #aaff00 337deg,
-    #00ffcc 342deg,
-    #00aaff 348deg,
-    #7700ff 354deg,
-    #ff00ee 360deg
+    #ff0000   0deg,
+    #ff7700  51deg,
+    #ffff00 103deg,
+    #00cc44 154deg,
+    #00ccff 206deg,
+    #0055ff 257deg,
+    #cc00ff 309deg,
+    #ff0000 360deg
   )`;
 
   return (
