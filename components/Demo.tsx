@@ -233,8 +233,8 @@ export default function Demo() {
             className="font-serif leading-tight"
             style={{ fontSize: "clamp(2rem, 4.5vw, 3.5rem)", fontWeight: 400, color: "var(--text-primary)" }}
           >
-            Voyez l'IA en{" "}
-            <em style={{ color: "#c8622a", fontStyle: "italic" }}>action</em>
+            Les sujets abordés lors de{" "}
+            <em style={{ color: "#c8622a", fontStyle: "italic" }}>la formation</em>
           </h2>
         </div>
 
