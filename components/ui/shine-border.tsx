@@ -6,6 +6,7 @@ interface ShineBorderProps {
   borderRadius?: number;
   borderWidth?: number;
   duration?: number;
+  color?: string | string[];
   className?: string;
   children: React.ReactNode;
 }
