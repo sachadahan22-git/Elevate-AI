@@ -1,26 +1,216 @@
 @import "tailwindcss";
+@import "tw-animate-css";
 
+/* ─── Dark mode via .dark class ─────────────────────────────────────────── */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* ─── Theme tokens ───────────────────────────────────────────────────────── */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Light mode (default) */
+  --section-bg-primary:   #ffffff;
+  --section-bg-secondary: #f7f7f7;
+  --section-bg-footer:    #f0f0f0;
+  --text-primary:         #1a1a18;
+  --text-primary-muted:   rgba(26, 26, 24, 0.62);
+  --text-primary-faint:   rgba(26, 26, 24, 0.48);
+  --text-secondary:       #1a1a18;
+  --text-secondary-muted: rgba(26, 26, 24, 0.65);
+  --card-bg:              #f2f2f2;
+  --card-border:          rgba(200, 98, 42, 0.22);
+  --card-hover-border:    rgba(200, 98, 42, 0.45);
+  --separator:            rgba(26, 26, 24, 0.12);
+  --noise-opacity:        0.06;
+  /* shadcn/pricing compat */
+  --foreground:           #1a1a18;
+  --background:           #ffffff;
+  --button-ripple-color:  oklch(0.145 0 0 / 0.3);
 }
 
+.dark {
+  /* Dark mode */
+  --section-bg-primary:   #1a1a18;
+  --section-bg-secondary: #f5f3ee;        /* intentionally light — alternating sections */
+  --section-bg-footer:    #131311;
+  --text-primary:         #f0ece2;        /* light — for dark bg sections */
+  --text-primary-muted:   rgba(240, 236, 226, 0.55);
+  --text-primary-faint:   rgba(240, 236, 226, 0.32);
+  --text-secondary:       #1a1a18;        /* dark — for light bg sections */
+  --text-secondary-muted: rgba(26, 26, 24, 0.62);
+  --text-secondary-faint: rgba(26, 26, 24, 0.42);
+  --card-bg:              rgba(255, 255, 255, 0.04);
+  --card-border:          rgba(200, 98, 42, 0.15);
+  --card-hover-border:    rgba(200, 98, 42, 0.3);
+  --separator:            rgba(240, 236, 226, 0.08);
+  --separator-secondary:  rgba(26, 26, 24, 0.12);  /* separator for light bg sections */
+  --noise-opacity:        0.4;
+  --foreground:           #f0ece2;
+  --background:           #1a1a18;
+  --button-ripple-color:  oklch(0.985 0 0 / 0.5);
+}
+
+/* ─── Tailwind theme extensions ──────────────────────────────────────────── */
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-serif:   var(--font-cormorant);
+  --font-sans:    var(--font-inter);
+  --font-mono:    var(--font-mono);
+  --font-display: var(--font-cormorant);
+  /* brand */
+  --color-accent:            #c8622a;
+  --color-foreground:        var(--foreground);
+  --color-background:        var(--background);
+  /* shadcn compat — required by tabs component */
+  --color-primary:           #c8622a;
+  --color-primary-foreground: #f0ece2;
+  --color-muted-foreground:  var(--text-primary-muted);
+  --color-border:            var(--separator);
+  --color-ring:              #c8622a;
+  --color-accent-foreground: var(--text-primary);
+  --color-input:             var(--separator);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
+/* ─── Base ───────────────────────────────────────────────────────────────── */
+html { scroll-behavior: smooth; }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: var(--section-bg-primary);
+  color: var(--text-primary);
+  font-family: var(--font-inter), system-ui, sans-serif;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
+
+/* Noise texture */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.035'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 0;
+  opacity: var(--noise-opacity);
+}
+
+/* ─── Typography utilities ───────────────────────────────────────────────── */
+.font-serif  { font-family: var(--font-cormorant), Georgia, serif; }
+.font-sans   { font-family: var(--font-inter), system-ui, sans-serif; }
+.font-mono   { font-family: var(--font-mono), monospace; }
+
+/* ─── Label ──────────────────────────────────────────────────────────────── */
+.label {
+  font-family: var(--font-mono), monospace;
+  font-size: 0.65rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #c8622a;
+}
+
+/* ─── Glass cards ────────────────────────────────────────────────────────── */
+.glass-card {
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.glass-card-light {
+  background: rgba(255, 255, 255, 0.5);
+  border: 1px solid rgba(212, 207, 198, 0.5);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+/* ─── Accent glow ────────────────────────────────────────────────────────── */
+.accent-glow {
+  box-shadow: 0 0 40px rgba(200, 98, 42, 0.15), 0 0 80px rgba(200, 98, 42, 0.05);
+}
+
+/* ─── Separator ──────────────────────────────────────────────────────────── */
+.separator {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #c8622a, transparent);
+}
+
+/* ─── CTA Buttons ────────────────────────────────────────────────────────── */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.875rem 2rem;
+  background-color: #d4783a;
+  color: #f0ece2;
+  font-family: var(--font-inter), system-ui, sans-serif;
+  font-size: 0.875rem;
+  font-weight: 500;
+  letter-spacing: 0.03em;
+  border-radius: 0.5rem;
+  border: 1px solid #d4783a;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  position: relative;
+  overflow: hidden;
+}
+.btn-primary:hover {
+  background-color: #b85a22;
+  border-color: #b85a22;
+  box-shadow: 0 0 30px rgba(184, 90, 34, 0.35);
+  transform: translateY(-1px);
+}
+
+.btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.875rem 2rem;
+  background-color: transparent;
+  color: var(--text-primary);
+  font-family: var(--font-inter), system-ui, sans-serif;
+  font-size: 0.875rem;
+  font-weight: 400;
+  letter-spacing: 0.03em;
+  border-radius: 0.5rem;
+  border: 1px solid var(--separator);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
+}
+.btn-ghost:hover {
+  border-color: rgba(200, 98, 42, 0.4);
+  background: var(--card-bg);
+}
+
+/* ─── Animations ─────────────────────────────────────────────────────────── */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.animate-fade-in-up { animation: fadeInUp 0.8s ease forwards; }
+.animate-fade-in    { animation: fadeIn 1s ease forwards; }
+
+.delay-100 { animation-delay: 0.1s; opacity: 0; }
+.delay-200 { animation-delay: 0.2s; opacity: 0; }
+.delay-300 { animation-delay: 0.3s; opacity: 0; }
+.delay-400 { animation-delay: 0.4s; opacity: 0; }
+.delay-500 { animation-delay: 0.5s; opacity: 0; }
+.delay-600 { animation-delay: 0.6s; opacity: 0; }
+.delay-700 { animation-delay: 0.7s; opacity: 0; }
+
+/* ─── Section padding ────────────────────────────────────────────────────── */
+.section-padding { padding: 7rem 1.5rem; }
+@media (min-width: 768px) { .section-padding { padding: 9rem 2rem; } }
+
+/* ─── Anchor offset ──────────────────────────────────────────────────────── */
+[id] { scroll-margin-top: 5rem; }
+
+/* ─── Theme toggle transition ────────────────────────────────────────────── */
+*, *::before, *::after {
+  transition-property: background-color, border-color, color, fill, stroke;
+  transition-duration: 200ms;
+  transition-timing-function: ease;
+}
+/* Exclude motion-based transitions from the global rule */
+.notransition * { transition: none !important; }
