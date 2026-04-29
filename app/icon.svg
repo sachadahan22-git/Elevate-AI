@@ -1,0 +1,26 @@
+<svg viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="arrow" x1="100" y1="165" x2="100" y2="28" gradientUnits="userSpaceOnUse">
+      <stop offset="0%"   stop-color="#ff6200"/>
+      <stop offset="16%"  stop-color="#ffe000"/>
+      <stop offset="32%"  stop-color="#aaff00"/>
+      <stop offset="50%"  stop-color="#00ffcc"/>
+      <stop offset="66%"  stop-color="#00aaff"/>
+      <stop offset="82%"  stop-color="#7700ff"/>
+      <stop offset="100%" stop-color="#ff00ee"/>
+    </linearGradient>
+    <linearGradient id="circle" x1="20" y1="180" x2="180" y2="20" gradientUnits="userSpaceOnUse">
+      <stop offset="0%"   stop-color="#ff6200"/>
+      <stop offset="16%"  stop-color="#ffe000"/>
+      <stop offset="32%"  stop-color="#aaff00"/>
+      <stop offset="50%"  stop-color="#00ffcc"/>
+      <stop offset="66%"  stop-color="#00aaff"/>
+      <stop offset="82%"  stop-color="#7700ff"/>
+      <stop offset="100%" stop-color="#ff00ee"/>
+    </linearGradient>
+  </defs>
+  <circle cx="100" cy="100" r="88" stroke="url(#circle)" stroke-width="7"/>
+  <path d="M59 165 L59 112 L47 112 L65 74 L83 112 L71 112 L71 165 Z" fill="url(#arrow)"/>
+  <path d="M93 165 L93 98 L80 98 L100 45 L120 98 L107 98 L107 165 Z" fill="url(#arrow)"/>
+  <path d="M129 165 L129 112 L117 112 L135 74 L153 112 L141 112 L141 165 Z" fill="url(#arrow)"/>
+</svg>

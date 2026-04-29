@@ -11,21 +11,30 @@ const steps = [
     number: "01",
     title: "Consultation gratuite",
     description: "Échange de 30 minutes pour comprendre vos enjeux, vos outils actuels et les besoins spécifiques de vos équipes. Aucun engagement.",
+    bullets: null,
   },
   {
     number: "02",
     title: "Programme sur-mesure",
     description: "Nous concevons un programme adapté à votre secteur, vos cas d'usage réels et le niveau de vos collaborateurs. Demi-journée ou journée entière.",
+    bullets: null,
   },
   {
     number: "03",
     title: "Formation en entreprise",
     description: "Session pratique dans vos locaux ou en distanciel. Vos équipes travaillent directement sur leurs propres tâches avec les outils IA adaptés.",
+    bullets: null,
   },
   {
     number: "04",
     title: "Suivi & ancrage",
-    description: "Un compte-rendu personnalisé, une sélection de ressources et un accès à notre support pendant 30 jours pour ancrer durablement les acquis.",
+    description: "Un compte-rendu personnalisé, une sélection de ressources et un kit offert regroupant :",
+    bullets: [
+      "Les 20 meilleurs outils IA gratuits et payants",
+      "Les 10 templates de prompts les plus utiles par métier",
+      "Un guide de démarrage avec n8n ou Make",
+      "La liste des formations recommandées pour aller plus loin",
+    ],
   },
 ];
 
@@ -144,6 +153,16 @@ export default function HowItWorks() {
                   >
                     {step.description}
                   </p>
+                  {step.bullets && (
+                    <ul className="mt-3 flex flex-col gap-1.5 max-w-lg">
+                      {step.bullets.map((bullet, j) => (
+                        <li key={j} className="flex items-start gap-2 font-sans" style={{ color: "var(--text-secondary-muted)", fontSize: "0.95rem" }}>
+                          <span className="mt-1.5 w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ backgroundColor: "#c8622a" }} />
+                          {bullet}
+                        </li>
+                      ))}
+                    </ul>
+                  )}
                 </div>
               </motion.div>
             ))}
