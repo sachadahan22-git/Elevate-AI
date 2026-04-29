@@ -2,53 +2,58 @@
 
 import { cn } from "@/lib/utils";
 
-type TColorProp = string | string[];
-
 interface ShineBorderProps {
   borderRadius?: number;
   borderWidth?: number;
   duration?: number;
-  color?: TColorProp;
   className?: string;
   children: React.ReactNode;
 }
 
 export function ShineBorder({
   borderRadius = 16,
-  borderWidth = 1.5,
-  duration = 8,
-  color = ["#ff6200", "#ffe000", "#aaff00", "#00ffcc", "#00aaff", "#7700ff", "#ff00ee"],
+  borderWidth = 2,
+  duration = 4,
   className,
   children,
 }: ShineBorderProps) {
-  const colors = Array.isArray(color) ? color : [color];
-  // Close the loop for a seamless conic gradient
-  const gradientColors = [...colors, colors[0]].join(", ");
+  // Conic gradient: transparent for ~320°, rainbow beam for ~40°
+  const gradient = `conic-gradient(
+    from 0deg,
+    transparent 0deg,
+    transparent 310deg,
+    #ff6200 320deg,
+    #ffe000 330deg,
+    #aaff00 337deg,
+    #00ffcc 342deg,
+    #00aaff 348deg,
+    #7700ff 354deg,
+    #ff00ee 360deg
+  )`;
 
   return (
     <div
-      className={cn("relative w-full", className)}
+      className={cn("relative w-full overflow-hidden", className)}
       style={{ borderRadius, padding: borderWidth }}
     >
-      {/* Rotating conic-gradient border layer */}
+      {/* Rotating beam — travels around the border */}
       <div
         aria-hidden
         style={{
           position: "absolute",
           inset: 0,
-          borderRadius,
-          background: `conic-gradient(from 0deg, ${gradientColors})`,
+          background: gradient,
           animation: `shine-spin ${duration}s linear infinite`,
-          zIndex: 0,
         }}
       />
-      {/* Content — sits above the gradient */}
+
+      {/* Content — covers the center, beam only visible on the border edge */}
       <div
         style={{
           position: "relative",
           borderRadius: borderRadius - borderWidth,
           overflow: "hidden",
-          zIndex: 1,
+          background: "#111",
         }}
       >
         {children}
