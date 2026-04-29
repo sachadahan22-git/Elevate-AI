@@ -18,7 +18,7 @@ export function ShineBorder({
   className,
   children,
 }: ShineBorderProps) {
-  // Full 360° rainbow — seamless loop (start color = end color)
+  // Full 360° seamless rainbow (start = end color so no seam)
   const gradient = `conic-gradient(
     from 0deg,
     #ff0000   0deg,
@@ -36,18 +36,34 @@ export function ShineBorder({
       className={cn("relative w-full overflow-hidden", className)}
       style={{ borderRadius, padding: borderWidth }}
     >
-      {/* Rotating beam — travels around the border */}
+      {/*
+        Outer wrapper centers an oversized square (200% × 200%) so that
+        at any rotation angle its corners still cover the container's corners —
+        this eliminates the "cut" that happens when a same-size div rotates.
+      */}
       <div
         aria-hidden
         style={{
           position: "absolute",
-          inset: 0,
-          background: gradient,
-          animation: `shine-spin ${duration}s linear infinite`,
+          width: "200%",
+          aspectRatio: "1",
+          top: "50%",
+          left: "50%",
+          transform: "translate(-50%, -50%)",
+          pointerEvents: "none",
         }}
-      />
+      >
+        <div
+          style={{
+            width: "100%",
+            height: "100%",
+            background: gradient,
+            animation: `shine-spin ${duration}s linear infinite`,
+          }}
+        />
+      </div>
 
-      {/* Content — covers the center, beam only visible on the border edge */}
+      {/* Content covers the center — gradient only shows through the border edge */}
       <div
         style={{
           position: "relative",
