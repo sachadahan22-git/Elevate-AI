@@ -1,5 +1,7 @@
 "use client";
 
+import { StarsBackground } from "@/components/ui/stars-background";
+
 const benefits = [
   {
     icon: (
@@ -41,82 +43,82 @@ const benefits = [
 
 export default function Benefices() {
   return (
-    <section
-      id="pourquoi"
-      className="section-padding"
-      style={{ backgroundColor: "var(--section-bg-primary)" }}
-    >
-      <div className="max-w-6xl mx-auto px-6">
-        {/* Header */}
-        <div className="text-center mb-16">
-          <span className="label block mb-4">Bénéfices</span>
-          <h2
-            className="font-serif leading-tight"
-            style={{ fontSize: "clamp(2rem, 4.5vw, 3.5rem)", color: "var(--text-primary)", fontWeight: 400 }}
-          >
-            Quels sont les <em style={{ color: "#c8622a" }}>avantages</em> concrets ?
-          </h2>
-          <p
-            className="font-sans mt-4 max-w-xl mx-auto"
-            style={{ color: "var(--text-primary-muted)", fontSize: "1rem", lineHeight: "1.7" }}
-          >
-            Chaque formation est conçue pour produire des résultats mesurables dès le retour au bureau.
-          </p>
-        </div>
-
-        {/* Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-stretch">
-          {benefits.map((b, i) => (
-            <div
-              key={i}
-              className="backdrop-blur-[14px] rounded-2xl shadow-xl px-7 py-8 flex flex-col gap-6 transition-all duration-300
-                bg-gradient-to-br from-black/5 to-black/0 border border-black/10
-                dark:from-white/10 dark:to-white/5 dark:border-white/10 dark:backdrop-brightness-[0.91]
-                hover:shadow-2xl"
+    <section id="pourquoi" className="section-padding p-0">
+      <StarsBackground className="w-full py-28 px-6" speed={60}>
+        <div className="max-w-6xl mx-auto relative z-10">
+          {/* Header */}
+          <div className="text-center mb-16">
+            <span className="label block mb-4">Bénéfices</span>
+            <h2
+              className="font-serif leading-tight"
+              style={{ fontSize: "clamp(2rem, 4.5vw, 3.5rem)", color: "#f0ece2", fontWeight: 400 }}
             >
-              {/* Icon */}
+              Quels sont les <em style={{ color: "#c8622a" }}>avantages</em> concrets ?
+            </h2>
+            <p
+              className="font-sans mt-4 max-w-xl mx-auto"
+              style={{ color: "rgba(240,236,226,0.6)", fontSize: "1rem", lineHeight: "1.7" }}
+            >
+              Chaque formation est conçue pour produire des résultats mesurables dès le retour au bureau.
+            </p>
+          </div>
+
+          {/* Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-stretch">
+            {benefits.map((b, i) => (
               <div
-                className="w-12 h-12 rounded-xl flex items-center justify-center"
-                style={{ backgroundColor: "rgba(200,98,42,0.08)", border: "1px solid rgba(200,98,42,0.15)" }}
+                key={i}
+                className="rounded-2xl shadow-xl px-7 py-8 flex flex-col gap-6 transition-all duration-300 hover:shadow-2xl"
+                style={{
+                  background: "rgba(255,255,255,0.05)",
+                  border: "1px solid rgba(255,255,255,0.1)",
+                  backdropFilter: "blur(12px)",
+                }}
               >
-                {b.icon}
-              </div>
-
-              {/* Title */}
-              <h3
-                className="font-serif text-xl leading-tight"
-                style={{ color: "var(--text-primary)", fontWeight: 500 }}
-              >
-                {b.title}
-              </h3>
-
-              {/* Separator */}
-              <div className="w-full h-px bg-[linear-gradient(90deg,transparent,rgba(200,98,42,0.3)_50%,transparent)]" />
-
-              {/* Description */}
-              <p
-                className="font-sans text-sm leading-relaxed flex-1"
-                style={{ color: "var(--text-primary-muted)" }}
-              >
-                {b.description}
-              </p>
-
-              {/* Stat */}
-              <div className="pt-2">
-                <span
-                  className="font-serif block leading-none mb-1"
-                  style={{ fontSize: "2rem", color: "#c8622a", fontWeight: 500 }}
+                {/* Icon */}
+                <div
+                  className="w-12 h-12 rounded-xl flex items-center justify-center"
+                  style={{ backgroundColor: "rgba(200,98,42,0.12)", border: "1px solid rgba(200,98,42,0.2)" }}
                 >
-                  {b.stat}
-                </span>
-                <span className="font-sans text-xs" style={{ color: "var(--text-primary-faint)" }}>
-                  {b.statLabel}
-                </span>
+                  {b.icon}
+                </div>
+
+                {/* Title */}
+                <h3
+                  className="font-serif text-xl leading-tight"
+                  style={{ color: "#f0ece2", fontWeight: 500 }}
+                >
+                  {b.title}
+                </h3>
+
+                {/* Separator */}
+                <div className="w-full h-px bg-[linear-gradient(90deg,transparent,rgba(200,98,42,0.4)_50%,transparent)]" />
+
+                {/* Description */}
+                <p
+                  className="font-sans text-sm leading-relaxed flex-1"
+                  style={{ color: "rgba(240,236,226,0.6)" }}
+                >
+                  {b.description}
+                </p>
+
+                {/* Stat */}
+                <div className="pt-2">
+                  <span
+                    className="font-serif block leading-none mb-1"
+                    style={{ fontSize: "2rem", color: "#c8622a", fontWeight: 500 }}
+                  >
+                    {b.stat}
+                  </span>
+                  <span className="font-sans text-xs" style={{ color: "rgba(240,236,226,0.4)" }}>
+                    {b.statLabel}
+                  </span>
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
-      </div>
+      </StarsBackground>
     </section>
   );
 }
