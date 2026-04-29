@@ -37,8 +37,10 @@ export default function ScrollExpandMedia({
   const [mediaFullyExpanded, setMediaFullyExpanded] = useState(false);
   const [touchStartY, setTouchStartY] = useState(0);
   const [isMobile, setIsMobile] = useState(false);
+  const [muted, setMuted] = useState(true);
 
   const sectionRef = useRef<HTMLDivElement | null>(null);
+  const videoRef = useRef<HTMLVideoElement | null>(null);
 
   useEffect(() => {
     setScrollProgress(0);
@@ -188,22 +190,44 @@ export default function ScrollExpandMedia({
                       />
                     </div>
                   ) : (
-                    <div className="relative w-full h-full pointer-events-none">
+                    <div className="relative w-full h-full">
                       <video
+                        ref={videoRef}
                         src={mediaSrc}
                         poster={posterSrc}
                         autoPlay
-                        muted
+                        muted={muted}
                         loop
                         playsInline
-                        className="w-full h-full object-cover"
+                        className="w-full h-full object-cover pointer-events-none"
                       />
                       <motion.div
-                        className="absolute inset-0 bg-black/30"
+                        className="absolute inset-0 bg-black/30 pointer-events-none"
                         initial={{ opacity: 0.7 }}
                         animate={{ opacity: 0.5 - scrollProgress * 0.3 }}
                         transition={{ duration: 0.2 }}
                       />
+                      {/* Mute / unmute button */}
+                      <button
+                        onClick={() => setMuted((m) => !m)}
+                        className="absolute bottom-3 right-3 z-10 flex items-center justify-center w-9 h-9 rounded-full transition-all duration-200"
+                        style={{ backgroundColor: "rgba(0,0,0,0.5)", backdropFilter: "blur(4px)", border: "1px solid rgba(255,255,255,0.2)" }}
+                        aria-label={muted ? "Activer le son" : "Couper le son"}
+                      >
+                        {muted ? (
+                          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
+                            <line x1="23" y1="9" x2="17" y2="15"/>
+                            <line x1="17" y1="9" x2="23" y2="15"/>
+                          </svg>
+                        ) : (
+                          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
+                            <path d="M19.07 4.93a10 10 0 0 1 0 14.14"/>
+                            <path d="M15.54 8.46a5 5 0 0 1 0 7.07"/>
+                          </svg>
+                        )}
+                      </button>
                     </div>
                   )
                 ) : (
