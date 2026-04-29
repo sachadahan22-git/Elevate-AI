@@ -49,10 +49,9 @@ export default function ScrollExpandMedia({
   useEffect(() => {
     const handleWheel = (e: Event) => {
       const we = e as unknown as { deltaY: number; preventDefault: () => void };
-      if (mediaFullyExpanded && we.deltaY < 0 && window.scrollY <= 5) {
-        setMediaFullyExpanded(false);
-        we.preventDefault();
-      } else if (!mediaFullyExpanded) {
+      if (!mediaFullyExpanded) {
+        // Only intercept when user is at the very top of the page
+        if (window.scrollY > 10) return;
         we.preventDefault();
         const delta = we.deltaY * 0.0009;
         setScrollProgress((prev) => {
@@ -61,6 +60,9 @@ export default function ScrollExpandMedia({
           else if (next < 0.75) { setShowContent(false); }
           return next;
         });
+      } else if (we.deltaY < 0 && window.scrollY <= 5) {
+        setMediaFullyExpanded(false);
+        we.preventDefault();
       }
     };
 
@@ -73,10 +75,8 @@ export default function ScrollExpandMedia({
       const te = e as unknown as { touches: { clientY: number }[]; preventDefault: () => void };
       if (!touchStartY) return;
       const deltaY = touchStartY - te.touches[0].clientY;
-      if (mediaFullyExpanded && deltaY < -20 && window.scrollY <= 5) {
-        setMediaFullyExpanded(false);
-        te.preventDefault();
-      } else if (!mediaFullyExpanded) {
+      if (!mediaFullyExpanded) {
+        if (window.scrollY > 10) return;
         te.preventDefault();
         const factor = deltaY < 0 ? 0.008 : 0.005;
         const delta = deltaY * factor;
@@ -87,6 +87,9 @@ export default function ScrollExpandMedia({
           return next;
         });
         setTouchStartY(te.touches[0].clientY);
+      } else if (deltaY < -20 && window.scrollY <= 5) {
+        setMediaFullyExpanded(false);
+        te.preventDefault();
       }
     };
 

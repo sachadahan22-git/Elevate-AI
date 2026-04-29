@@ -43,10 +43,14 @@ export default function Navbar() {
           { "md:px-2": scrolled }
         )}
       >
-        {/* Logo */}
-        <Link href="/" className="flex-shrink-0">
+        {/* Logo — click scrolls to top */}
+        <a
+          href="#"
+          className="flex-shrink-0"
+          onClick={(e) => { e.preventDefault(); window.scrollTo({ top: 0, behavior: "smooth" }); }}
+        >
           <ElevateAILogo iconSize="w-7 h-7" textSize="text-lg" />
-        </Link>
+        </a>
 
         {/* Desktop nav */}
         <div className="hidden items-center gap-1 md:flex">

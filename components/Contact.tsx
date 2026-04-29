@@ -159,8 +159,8 @@ export default function Contact() {
                 </Field>
 
                 {/* Téléphone */}
-                <Field label="Téléphone">
-                  <Input type="tel" placeholder="+33 6 00 00 00 00" value={formData.phone} onChange={set("phone")} />
+                <Field label="Téléphone" required>
+                  <Input type="tel" placeholder="+33 6 00 00 00 00" value={formData.phone} onChange={set("phone")} required />
                 </Field>
 
                 {/* Sujet */}

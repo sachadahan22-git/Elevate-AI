@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Cormorant_Garamond, Inter, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
+import ScrollToTop from "@/components/ScrollToTop";
 
 const cormorant = Cormorant_Garamond({
   variable: "--font-cormorant",
@@ -62,6 +63,7 @@ export default function RootLayout({
         />
       </head>
       <body className="min-h-full antialiased">
+        <ScrollToTop />
         {children}
       </body>
     </html>
