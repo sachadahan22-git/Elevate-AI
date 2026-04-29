@@ -1,19 +1,9 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
-@keyframes shine {
-  0% { background-position: 0% 0%; }
-  50% { background-position: 100% 100%; }
-  100% { background-position: 0% 0%; }
+@keyframes shine-spin {
+  to { transform: rotate(360deg); }
 }
-
-@theme {
-  --animate-shine: shine 14s linear infinite;
-  --spacing-shine-size: 300% 300%;
-}
-
-.animate-shine { animation: var(--animate-shine); }
-.bg-shine-size { background-size: var(--spacing-shine-size); }
 
 /* ─── Dark mode via .dark class ─────────────────────────────────────────── */
 @custom-variant dark (&:where(.dark, .dark *));

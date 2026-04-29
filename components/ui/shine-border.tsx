@@ -15,31 +15,44 @@ interface ShineBorderProps {
 
 export function ShineBorder({
   borderRadius = 16,
-  borderWidth = 1,
-  duration = 14,
-  color = "#000000",
+  borderWidth = 1.5,
+  duration = 8,
+  color = ["#ff6200", "#ffe000", "#aaff00", "#00ffcc", "#00aaff", "#7700ff", "#ff00ee"],
   className,
   children,
 }: ShineBorderProps) {
+  const colors = Array.isArray(color) ? color : [color];
+  // Close the loop for a seamless conic gradient
+  const gradientColors = [...colors, colors[0]].join(", ");
+
   return (
     <div
-      style={{ "--border-radius": `${borderRadius}px` } as React.CSSProperties}
-      className={cn("relative w-full rounded-[--border-radius] p-[--border-width]", className)}
+      className={cn("relative w-full", className)}
+      style={{ borderRadius, padding: borderWidth }}
     >
-      {/* Shine border layer */}
+      {/* Rotating conic-gradient border layer */}
+      <div
+        aria-hidden
+        style={{
+          position: "absolute",
+          inset: 0,
+          borderRadius,
+          background: `conic-gradient(from 0deg, ${gradientColors})`,
+          animation: `shine-spin ${duration}s linear infinite`,
+          zIndex: 0,
+        }}
+      />
+      {/* Content — sits above the gradient */}
       <div
         style={{
-          "--border-width": `${borderWidth}px`,
-          "--border-radius": `${borderRadius}px`,
-          "--duration": `${duration}s`,
-          "--mask-linear-gradient": `linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)`,
-          "--background-radial-gradient": `radial-gradient(transparent, transparent, ${
-            Array.isArray(color) ? color.join(",") : color
-          }, transparent, transparent)`,
-        } as React.CSSProperties}
-        className="pointer-events-none absolute inset-0 rounded-[--border-radius] before:absolute before:inset-0 before:aspect-square before:size-full before:rounded-[--border-radius] before:p-[--border-width] before:will-change-[background-position] before:content-[''] before:![-webkit-mask-composite:xor] before:![mask-composite:exclude] before:[background-image:--background-radial-gradient] before:bg-shine-size before:[mask:--mask-linear-gradient] motion-safe:before:animate-shine"
-      />
-      {children}
+          position: "relative",
+          borderRadius: borderRadius - borderWidth,
+          overflow: "hidden",
+          zIndex: 1,
+        }}
+      >
+        {children}
+      </div>
     </div>
   );
 }
