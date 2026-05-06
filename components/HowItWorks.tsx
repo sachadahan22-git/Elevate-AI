@@ -59,6 +59,7 @@ const steps = [
 
 export default function HowItWorks() {
   const [activeStep, setActiveStep] = useState(0);
+  const [hoveredStep, setHoveredStep] = useState<number | null>(null);
   const step = steps[activeStep];
 
   return (
@@ -93,16 +94,38 @@ export default function HowItWorks() {
           <div className="lg:col-span-2 flex flex-col gap-2">
             {steps.map((s, i) => {
               const isActive = activeStep === i;
+              const isHovered = hoveredStep === i;
+              const isDimmed = hoveredStep !== null && !isHovered && !isActive;
               return (
-                <button
+                <motion.button
                   key={i}
                   onClick={() => setActiveStep(i)}
-                  className="relative flex items-center gap-4 px-5 py-4 rounded-xl text-left transition-all duration-300 group"
+                  onMouseEnter={() => setHoveredStep(i)}
+                  onMouseLeave={() => setHoveredStep(null)}
+                  animate={{ x: isHovered && !isActive ? 6 : 0, opacity: isDimmed ? 0.45 : 1 }}
+                  transition={{ type: "spring", stiffness: 400, damping: 30 }}
+                  className="relative flex items-center gap-4 px-5 py-4 rounded-xl text-left overflow-hidden"
                   style={{
                     backgroundColor: isActive ? "rgba(200,98,42,0.08)" : "transparent",
-                    border: `1px solid ${isActive ? "rgba(200,98,42,0.3)" : "transparent"}`,
+                    border: `1px solid ${isActive ? "rgba(200,98,42,0.3)" : isHovered ? "rgba(200,98,42,0.15)" : "transparent"}`,
                   }}
                 >
+                  {/* Hover glow highlight */}
+                  <AnimatePresence>
+                    {isHovered && !isActive && (
+                      <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        transition={{ duration: 0.2 }}
+                        className="absolute inset-0 pointer-events-none"
+                        style={{
+                          background: "radial-gradient(ellipse 120% 80% at 0% 50%, rgba(200,98,42,0.10) 0%, transparent 70%)",
+                        }}
+                      />
+                    )}
+                  </AnimatePresence>
+
                   {/* Active left bar */}
                   {isActive && (
                     <motion.div
@@ -113,11 +136,11 @@ export default function HowItWorks() {
                     />
                   )}
 
-                  {/* Number */}
+                  {/* Icon */}
                   <div
                     className="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 transition-all duration-300"
                     style={{
-                      backgroundColor: isActive ? "#c8622a" : "rgba(200,98,42,0.08)",
+                      backgroundColor: isActive ? "#c8622a" : isHovered ? "rgba(200,98,42,0.15)" : "rgba(200,98,42,0.08)",
                       color: isActive ? "#f0ece2" : "#c8622a",
                     }}
                   >
@@ -128,27 +151,29 @@ export default function HowItWorks() {
                   <div>
                     <span
                       className="font-mono text-xs block mb-0.5"
-                      style={{ color: isActive ? "#c8622a" : "rgba(200,98,42,0.5)" }}
+                      style={{ color: isActive || isHovered ? "#c8622a" : "rgba(200,98,42,0.5)" }}
                     >
                       {s.number}
                     </span>
                     <span
-                      className="font-sans text-sm font-medium transition-colors duration-300"
-                      style={{ color: isActive ? "var(--text-secondary)" : "var(--text-secondary-muted)" }}
+                      className="font-sans text-sm font-medium"
+                      style={{ color: isActive || isHovered ? "var(--text-secondary)" : "var(--text-secondary-muted)" }}
                     >
                       {s.title}
                     </span>
                   </div>
 
                   {/* Arrow */}
-                  <svg
+                  <motion.svg
                     width="14" height="14" viewBox="0 0 14 14" fill="none"
-                    className="ml-auto transition-all duration-300 flex-shrink-0"
-                    style={{ opacity: isActive ? 1 : 0, color: "#c8622a", transform: isActive ? "translateX(0)" : "translateX(-6px)" }}
+                    className="ml-auto flex-shrink-0"
+                    animate={{ opacity: isActive || isHovered ? 1 : 0, x: isActive || isHovered ? 0 : -6 }}
+                    transition={{ duration: 0.2 }}
+                    style={{ color: "#c8622a" }}
                   >
                     <path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                  </svg>
-                </button>
+                  </motion.svg>
+                </motion.button>
               );
             })}
           </div>
