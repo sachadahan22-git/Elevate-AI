@@ -5,6 +5,20 @@
   to { transform: rotate(360deg); }
 }
 
+@keyframes ai-gradient-flow {
+  0%   { background-position: 0% 50%;   }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%;   }
+}
+.ai-gradient-animated {
+  background: linear-gradient(90deg, #f97316, #ec4899, #a855f7, #6366f1, #ec4899, #f97316);
+  background-size: 250% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: ai-gradient-flow 4s linear infinite;
+}
+
 /* ─── Dark mode via .dark class ─────────────────────────────────────────── */
 @custom-variant dark (&:where(.dark, .dark *));
 

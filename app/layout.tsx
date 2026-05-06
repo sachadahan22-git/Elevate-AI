@@ -58,7 +58,7 @@ export default function RootLayout({
         {/* Dark mode by default — only remove if user explicitly chose light */}
         <script
           dangerouslySetInnerHTML={{
-            __html: `(function(){var t=localStorage.getItem('theme');if(t==='light'){document.documentElement.classList.remove('dark');}})();`,
+            __html: `(function(){var t=localStorage.getItem('theme');if(t==='light'){document.documentElement.classList.remove('dark');}history.scrollRestoration='manual';if(window.location.hash){history.replaceState(null,'',window.location.pathname+window.location.search);}})();`,
           }}
         />
       </head>

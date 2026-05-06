@@ -116,7 +116,7 @@ export default function Benefices() {
               <div className="pt-2">
                 <span
                   className="font-serif block leading-none mb-1"
-                  style={{ fontSize: "2rem", color: "#c8622a", fontWeight: 500 }}
+                  style={{ fontSize: "clamp(2.8rem, 5vw, 4rem)", color: "#c8622a", fontWeight: 500 }}
                 >
                   {b.stat}
                 </span>

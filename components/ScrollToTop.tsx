@@ -1,13 +1,14 @@
 "use client";
 
-import { useEffect } from "react";
+import { useLayoutEffect } from "react";
 
 export default function ScrollToTop() {
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      history.scrollRestoration = "manual";
-      window.scrollTo(0, 0);
-    }
+  useLayoutEffect(() => {
+    document.documentElement.style.scrollBehavior = "auto";
+    window.scrollTo(0, 0);
+    requestAnimationFrame(() => {
+      document.documentElement.style.scrollBehavior = "";
+    });
   }, []);
   return null;
 }
