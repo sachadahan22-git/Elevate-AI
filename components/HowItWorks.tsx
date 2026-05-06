@@ -102,29 +102,28 @@ export default function HowItWorks() {
                   onClick={() => setActiveStep(i)}
                   onMouseEnter={() => setHoveredStep(i)}
                   onMouseLeave={() => setHoveredStep(null)}
-                  animate={{ x: isHovered && !isActive ? 6 : 0, opacity: isDimmed ? 0.45 : 1 }}
+                  whileHover={!isActive ? { x: 8 } : undefined}
+                  animate={{ opacity: isDimmed ? 0.4 : 1 }}
                   transition={{ type: "spring", stiffness: 400, damping: 30 }}
-                  className="relative flex items-center gap-4 px-5 py-4 rounded-xl text-left overflow-hidden"
+                  className="group relative flex items-center gap-4 px-5 py-4 rounded-xl text-left overflow-hidden cursor-pointer"
                   style={{
                     backgroundColor: isActive ? "rgba(200,98,42,0.08)" : "transparent",
-                    border: `1px solid ${isActive ? "rgba(200,98,42,0.3)" : isHovered ? "rgba(200,98,42,0.15)" : "transparent"}`,
+                    border: `1px solid ${isActive ? "rgba(200,98,42,0.3)" : "rgba(200,98,42,0)"}`,
+                    transition: "background-color 0.2s ease, border-color 0.2s ease",
                   }}
                 >
-                  {/* Hover glow highlight */}
-                  <AnimatePresence>
-                    {isHovered && !isActive && (
-                      <motion.div
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        exit={{ opacity: 0 }}
-                        transition={{ duration: 0.2 }}
-                        className="absolute inset-0 pointer-events-none"
-                        style={{
-                          background: "radial-gradient(ellipse 120% 80% at 0% 50%, rgba(200,98,42,0.10) 0%, transparent 70%)",
-                        }}
-                      />
-                    )}
-                  </AnimatePresence>
+                  {/* Hover glow — CSS group-hover for reliability */}
+                  {!isActive && (
+                    <div
+                      className="absolute inset-0 pointer-events-none opacity-0 group-hover:opacity-100"
+                      style={{
+                        background: "radial-gradient(ellipse 140% 100% at 0% 50%, rgba(200,98,42,0.18) 0%, transparent 65%)",
+                        transition: "opacity 0.2s ease",
+                        borderRadius: "inherit",
+                        border: "1px solid rgba(200,98,42,0.2)",
+                      }}
+                    />
+                  )}
 
                   {/* Active left bar */}
                   {isActive && (
@@ -138,41 +137,48 @@ export default function HowItWorks() {
 
                   {/* Icon */}
                   <div
-                    className="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 transition-all duration-300"
+                    className="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0"
                     style={{
-                      backgroundColor: isActive ? "#c8622a" : isHovered ? "rgba(200,98,42,0.15)" : "rgba(200,98,42,0.08)",
+                      backgroundColor: isActive ? "#c8622a" : "rgba(200,98,42,0.08)",
                       color: isActive ? "#f0ece2" : "#c8622a",
+                      transition: "background-color 0.2s ease",
                     }}
                   >
-                    {s.icon}
+                    <div className={!isActive ? "group-hover:[&>*]:stroke-[#c8622a]" : ""}>
+                      {s.icon}
+                    </div>
                   </div>
 
                   {/* Text */}
                   <div>
                     <span
                       className="font-mono text-xs block mb-0.5"
-                      style={{ color: isActive || isHovered ? "#c8622a" : "rgba(200,98,42,0.5)" }}
+                      style={{
+                        color: isActive ? "#c8622a" : "rgba(200,98,42,0.5)",
+                        transition: "color 0.2s ease",
+                      }}
                     >
                       {s.number}
                     </span>
                     <span
                       className="font-sans text-sm font-medium"
-                      style={{ color: isActive || isHovered ? "var(--text-secondary)" : "var(--text-secondary-muted)" }}
+                      style={{
+                        color: isActive ? "var(--text-secondary)" : "var(--text-secondary-muted)",
+                        transition: "color 0.2s ease",
+                      }}
                     >
                       {s.title}
                     </span>
                   </div>
 
                   {/* Arrow */}
-                  <motion.svg
+                  <svg
                     width="14" height="14" viewBox="0 0 14 14" fill="none"
-                    className="ml-auto flex-shrink-0"
-                    animate={{ opacity: isActive || isHovered ? 1 : 0, x: isActive || isHovered ? 0 : -6 }}
-                    transition={{ duration: 0.2 }}
-                    style={{ color: "#c8622a" }}
+                    className="ml-auto flex-shrink-0 opacity-0 group-hover:opacity-100 -translate-x-2 group-hover:translate-x-0"
+                    style={{ color: "#c8622a", transition: "opacity 0.2s ease, transform 0.2s ease" }}
                   >
                     <path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                  </motion.svg>
+                  </svg>
                 </motion.button>
               );
             })}
