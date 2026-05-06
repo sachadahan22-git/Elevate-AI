@@ -1,10 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { motion, Variants } from "framer-motion";
-
-type CubicBezier = [number, number, number, number];
-const smooth: CubicBezier = [0.22, 1, 0.36, 1];
+import { motion, AnimatePresence } from "framer-motion";
 
 const steps = [
   {
@@ -12,18 +9,35 @@ const steps = [
     title: "Consultation gratuite",
     description: "Échange de 30 minutes pour comprendre vos enjeux, vos outils actuels et les besoins spécifiques de vos équipes. Aucun engagement.",
     bullets: null,
+    icon: (
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+      </svg>
+    ),
   },
   {
     number: "02",
     title: "Programme sur-mesure",
     description: "Nous concevons un programme adapté à votre secteur, vos cas d'usage réels et le niveau de vos collaborateurs. Demi-journée ou journée entière.",
     bullets: null,
+    icon: (
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+        <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+      </svg>
+    ),
   },
   {
     number: "03",
     title: "Formation en entreprise",
     description: "Session pratique dans vos locaux ou en distanciel. Vos équipes travaillent directement sur leurs propres tâches avec les outils IA adaptés.",
     bullets: null,
+    icon: (
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+        <circle cx="9" cy="7" r="4" stroke="currentColor" strokeWidth="1.5" />
+        <path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+      </svg>
+    ),
   },
   {
     number: "04",
@@ -35,28 +49,17 @@ const steps = [
       "Un guide de démarrage avec n8n ou Make",
       "La liste des formations recommandées pour aller plus loin",
     ],
+    icon: (
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+        <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+      </svg>
+    ),
   },
 ];
 
-const lineVariants: Variants = {
-  hidden: { scaleY: 0 },
-  visible: {
-    scaleY: 1,
-    transition: { duration: 1.2, ease: "easeInOut" as const },
-  },
-};
-
-const stepVariants: Variants = {
-  hidden: { opacity: 0, x: -32 },
-  visible: (i: number) => ({
-    opacity: 1,
-    x: 0,
-    transition: { duration: 0.55, ease: smooth, delay: i * 0.18 },
-  }),
-};
-
 export default function HowItWorks() {
-  const [hoveredStep, setHoveredStep] = useState<number | null>(null);
+  const [activeStep, setActiveStep] = useState(0);
+  const step = steps[activeStep];
 
   return (
     <section
@@ -64,7 +67,8 @@ export default function HowItWorks() {
       className="section-padding"
       style={{ backgroundColor: "var(--section-bg-secondary)" }}
     >
-      <div className="max-w-5xl mx-auto px-6">
+      <div className="max-w-6xl mx-auto px-6">
+
         {/* Header */}
         <motion.div
           className="mb-16"
@@ -82,96 +86,166 @@ export default function HowItWorks() {
           </h2>
         </motion.div>
 
-        {/* Steps */}
-        <div className="relative">
-          {/* Vertical line — animates on scroll */}
-          <motion.div
-            className="absolute left-[1.75rem] top-4 bottom-4 w-px hidden md:block origin-top"
-            style={{ background: "linear-gradient(to bottom, #c8622a, rgba(200,98,42,0.1))" }}
-            variants={lineVariants}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: "-60px" }}
-          />
+        {/* Interactive layout */}
+        <div className="grid grid-cols-1 lg:grid-cols-5 gap-6 lg:gap-12">
 
-          <div className="flex flex-col gap-0">
-            {steps.map((step, i) => (
-              <motion.div
-                key={i}
-                className="relative flex gap-8 md:gap-12 group"
-                custom={i}
-                variants={stepVariants}
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true, margin: "-60px" }}
-              >
-                {/* Number bubble */}
-                <div className="flex flex-col items-center">
-                  <div
-                    className="relative z-10 w-14 h-14 rounded-xl flex items-center justify-center flex-shrink-0 cursor-pointer"
-                    style={{
-                      backgroundColor: (i === 0 || hoveredStep === i) ? "#c8622a" : "rgba(255,255,255,0.7)",
-                      border: `1px solid ${(i === 0 || hoveredStep === i) ? "#c8622a" : "rgba(200,98,42,0.3)"}`,
-                      boxShadow: hoveredStep === i ? "0 0 20px rgba(200,98,42,0.35)" : "none",
-                      transition: "background-color 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease",
-                    }}
-                    onMouseEnter={() => setHoveredStep(i)}
-                    onMouseLeave={() => setHoveredStep(null)}
-                  >
-                    <span
-                      className="font-mono text-sm font-bold"
-                      style={{
-                        color: (i === 0 || hoveredStep === i) ? "#f0ece2" : "#c8622a",
-                        transition: "color 0.25s ease",
-                      }}
-                    >
-                      {step.number}
-                    </span>
-                  </div>
-                  {i < steps.length - 1 && (
-                    <div
-                      className="w-px flex-1 my-2 md:hidden"
-                      style={{
-                        background: "linear-gradient(to bottom, rgba(200,98,42,0.4), rgba(200,98,42,0.05))",
-                        minHeight: "40px",
-                      }}
+          {/* ── Left: step selector ── */}
+          <div className="lg:col-span-2 flex flex-col gap-2">
+            {steps.map((s, i) => {
+              const isActive = activeStep === i;
+              return (
+                <button
+                  key={i}
+                  onClick={() => setActiveStep(i)}
+                  className="relative flex items-center gap-4 px-5 py-4 rounded-xl text-left transition-all duration-300 group"
+                  style={{
+                    backgroundColor: isActive ? "rgba(200,98,42,0.08)" : "transparent",
+                    border: `1px solid ${isActive ? "rgba(200,98,42,0.3)" : "transparent"}`,
+                  }}
+                >
+                  {/* Active left bar */}
+                  {isActive && (
+                    <motion.div
+                      layoutId="active-bar"
+                      className="absolute left-0 top-3 bottom-3 w-[3px] rounded-full"
+                      style={{ backgroundColor: "#c8622a" }}
+                      transition={{ type: "spring", stiffness: 400, damping: 35 }}
                     />
                   )}
-                </div>
 
-                {/* Content */}
-                <div style={{ paddingBottom: i < steps.length - 1 ? "3rem" : "0" }}>
-                  <h3
-                    className="font-serif text-2xl mb-3 leading-snug"
-                    style={{ color: "var(--text-secondary)", fontWeight: 500 }}
+                  {/* Number */}
+                  <div
+                    className="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 transition-all duration-300"
+                    style={{
+                      backgroundColor: isActive ? "#c8622a" : "rgba(200,98,42,0.08)",
+                      color: isActive ? "#f0ece2" : "#c8622a",
+                    }}
                   >
-                    {step.title}
-                  </h3>
-                  <p
-                    className="font-sans leading-relaxed max-w-lg"
-                    style={{ color: "var(--text-secondary-muted)", fontSize: "0.95rem" }}
+                    {s.icon}
+                  </div>
+
+                  {/* Text */}
+                  <div>
+                    <span
+                      className="font-mono text-xs block mb-0.5"
+                      style={{ color: isActive ? "#c8622a" : "rgba(200,98,42,0.5)" }}
+                    >
+                      {s.number}
+                    </span>
+                    <span
+                      className="font-sans text-sm font-medium transition-colors duration-300"
+                      style={{ color: isActive ? "var(--text-secondary)" : "var(--text-secondary-muted)" }}
+                    >
+                      {s.title}
+                    </span>
+                  </div>
+
+                  {/* Arrow */}
+                  <svg
+                    width="14" height="14" viewBox="0 0 14 14" fill="none"
+                    className="ml-auto transition-all duration-300 flex-shrink-0"
+                    style={{ opacity: isActive ? 1 : 0, color: "#c8622a", transform: isActive ? "translateX(0)" : "translateX(-6px)" }}
                   >
-                    {step.description}
-                  </p>
-                  {step.bullets && (
-                    <ul className="mt-3 flex flex-col gap-1.5 max-w-lg">
-                      {step.bullets.map((bullet, j) => (
-                        <li key={j} className="flex items-start gap-2 font-sans" style={{ color: "var(--text-secondary-muted)", fontSize: "0.95rem" }}>
-                          <span className="mt-1.5 w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ backgroundColor: "#c8622a" }} />
-                          {bullet}
-                        </li>
-                      ))}
-                    </ul>
-                  )}
-                </div>
+                    <path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
+                </button>
+              );
+            })}
+          </div>
+
+          {/* ── Right: content panel ── */}
+          <div
+            className="lg:col-span-3 relative rounded-2xl overflow-hidden p-8 lg:p-10 min-h-[340px] flex flex-col justify-between"
+            style={{
+              background: "rgba(255,255,255,0.5)",
+              border: "1px solid rgba(200,98,42,0.15)",
+              backdropFilter: "blur(12px)",
+            }}
+          >
+            {/* Decorative large number */}
+            <span
+              className="absolute top-4 right-6 font-serif font-bold select-none pointer-events-none"
+              style={{ fontSize: "7rem", lineHeight: 1, color: "rgba(200,98,42,0.07)" }}
+            >
+              {step.number}
+            </span>
+
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={activeStep}
+                initial={{ opacity: 0, y: 16 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -16 }}
+                transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+                className="relative z-10 flex flex-col gap-5 flex-1"
+              >
+                {/* Step label */}
+                <span className="font-mono text-xs uppercase tracking-widest" style={{ color: "#c8622a" }}>
+                  Étape {step.number}
+                </span>
+
+                {/* Title */}
+                <h3
+                  className="font-serif leading-snug"
+                  style={{ fontSize: "clamp(1.6rem, 3vw, 2.4rem)", color: "var(--text-secondary)", fontWeight: 500 }}
+                >
+                  {step.title}
+                </h3>
+
+                {/* Separator */}
+                <div className="w-12 h-0.5 rounded-full" style={{ backgroundColor: "#c8622a" }} />
+
+                {/* Description */}
+                <p className="font-sans leading-relaxed" style={{ color: "var(--text-secondary-muted)", fontSize: "0.95rem" }}>
+                  {step.description}
+                </p>
+
+                {/* Bullets */}
+                {step.bullets && (
+                  <ul className="flex flex-col gap-2.5 mt-1">
+                    {step.bullets.map((bullet, j) => (
+                      <motion.li
+                        key={j}
+                        initial={{ opacity: 0, x: -10 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ delay: j * 0.07, duration: 0.3 }}
+                        className="flex items-start gap-3 font-sans"
+                        style={{ color: "var(--text-secondary-muted)", fontSize: "0.9rem" }}
+                      >
+                        <span
+                          className="mt-1.5 w-1.5 h-1.5 rounded-full flex-shrink-0"
+                          style={{ backgroundColor: "#c8622a" }}
+                        />
+                        {bullet}
+                      </motion.li>
+                    ))}
+                  </ul>
+                )}
               </motion.div>
-            ))}
+            </AnimatePresence>
+
+            {/* Step dots navigation */}
+            <div className="flex gap-2 mt-8 relative z-10">
+              {steps.map((_, i) => (
+                <button
+                  key={i}
+                  onClick={() => setActiveStep(i)}
+                  className="transition-all duration-300 rounded-full"
+                  style={{
+                    width: activeStep === i ? "24px" : "8px",
+                    height: "8px",
+                    backgroundColor: activeStep === i ? "#c8622a" : "rgba(200,98,42,0.25)",
+                  }}
+                  aria-label={`Étape ${i + 1}`}
+                />
+              ))}
+            </div>
           </div>
         </div>
 
         {/* Inline CTA */}
         <motion.div
-          className="mt-4 pt-12 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6"
+          className="mt-12 pt-12 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6"
           style={{ borderTop: "1px solid rgba(200,98,42,0.15)" }}
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -193,6 +267,7 @@ export default function HowItWorks() {
             </svg>
           </a>
         </motion.div>
+
       </div>
     </section>
   );
