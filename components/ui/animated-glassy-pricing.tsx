@@ -129,6 +129,7 @@ export interface PricingCardProps {
   price: string;
   priceUnit?: string;
   features: string[];
+  highlightFeature?: string;
   buttonText: string;
   href?: string;
   isPopular?: boolean;
@@ -137,7 +138,7 @@ export interface PricingCardProps {
 
 export const PricingCard = ({
   planName, description, price, priceUnit = "€ HT / session",
-  features, buttonText, href = "#contact", isPopular = false, buttonVariant = "primary",
+  features, highlightFeature, buttonText, href = "#contact", isPopular = false, buttonVariant = "primary",
 }: PricingCardProps) => {
   const card = `
     backdrop-blur-[14px] rounded-2xl shadow-xl flex-1 px-7 py-8 flex flex-col transition-all duration-300
@@ -176,6 +177,19 @@ export const PricingCard = ({
           </li>
         ))}
       </ul>
+
+      {highlightFeature && (
+        <div
+          className="flex items-center gap-2 px-4 py-3 rounded-xl mb-4 font-sans text-sm font-medium"
+          style={{ backgroundColor: "rgba(200,98,42,0.12)", border: "1px solid rgba(200,98,42,0.25)", color: "#c8622a" }}
+        >
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" style={{ flexShrink: 0 }}>
+            <circle cx="8" cy="8" r="7" stroke="#c8622a" strokeWidth="1.2" />
+            <path d="M8 5v6M5 8h6" stroke="#c8622a" strokeWidth="1.4" strokeLinecap="round" />
+          </svg>
+          {highlightFeature}
+        </div>
+      )}
 
       <RippleButton
         className={[

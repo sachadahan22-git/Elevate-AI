@@ -36,12 +36,12 @@ const faqs = [
   {
     question: "Que se passe-t-il après la formation ?",
     answer:
-      "Chaque participant reçoit un guide personnalisé récapitulatif, une sélection de ressources et accède à notre support email pendant 15 ou 30 jours selon la formule. La formule journée inclut également une session de suivi à J+30.",
+      "Chaque participant reçoit un guide personnalisé récapitulatif, une sélection de ressources. La formule journée inclut également une session de suivi de mise en place.",
   },
   {
     question: "Proposez-vous des formations récurrentes ou un suivi long terme ?",
     answer:
-      "Oui, nous proposons des programmes sur-mesure multi-sessions, des abonnements trimestriels et la formation de vos formateurs internes. Contactez-nous pour un devis adapté à votre organisation.",
+      "Oui, nous proposons des programmes sur-mesure multi-sessions. Contactez-nous pour un devis adapté à votre organisation.",
   },
 ];
 
