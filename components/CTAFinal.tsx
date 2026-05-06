@@ -61,18 +61,6 @@ export default function CTAFinal() {
               <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
           </a>
-          <a
-            href="tel:+33000000000"
-            className="inline-flex items-center gap-2 px-8 py-4 rounded-sm font-sans text-base font-medium transition-all duration-300"
-            style={{ backgroundColor: "transparent", color: "#f0ece2", border: "1px solid rgba(240,236,226,0.25)" }}
-            onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.borderColor = "rgba(240,236,226,0.6)")}
-            onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.borderColor = "rgba(240,236,226,0.25)")}
-          >
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-              <path d="M2 3a1 1 0 0 1 1-1h2.5a.5.5 0 0 1 .479.355l.928 3.09a.5.5 0 0 1-.168.544L5.5 6.5a8.001 8.001 0 0 0 4 4l.511-1.239a.5.5 0 0 1 .544-.168l3.09.928A.5.5 0 0 1 14 10.5V13a1 1 0 0 1-1 1h-1C6.477 14 2 9.523 2 4V3z" stroke="currentColor" strokeWidth="1.2" fill="none" strokeLinejoin="round" />
-            </svg>
-            Nous appeler
-          </a>
         </div>
 
         <p className="mt-8 font-sans text-xs" style={{ color: "rgba(240,236,226,0.35)" }}>
