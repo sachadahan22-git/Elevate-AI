@@ -49,7 +49,7 @@ export default function Navbar() {
           className="flex-shrink-0"
           onClick={(e) => { e.preventDefault(); window.scrollTo({ top: 0, behavior: "smooth" }); }}
         >
-          <ElevateAILogo iconSize="w-7 h-7" textSize="text-lg" />
+          <ElevateAILogo iconSize="w-10 h-10" textSize="text-xl" />
         </a>
 
         {/* Desktop nav */}
