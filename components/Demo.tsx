@@ -224,8 +224,7 @@ function VideoPlayer({ src }: { src: string }) {
 export default function Demo() {
   return (
     <section
-      className="section-padding"
-      style={{ backgroundColor: "var(--section-bg-primary)" }}
+      style={{ backgroundColor: "var(--section-bg-primary)", padding: "3rem 1.5rem 7rem" }}
     >
       <div className="max-w-5xl mx-auto px-6">
         <div className="text-center mb-12">

@@ -177,7 +177,7 @@ const FloatingIconsHero = React.forwardRef<
         </div>
 
         {/* Foreground content */}
-        <div className="relative z-10 text-center px-6 max-w-4xl mx-auto pt-4 pb-8">
+        <div className="relative z-10 text-center px-6 max-w-4xl mx-auto pt-4 pb-4">
           {/* Elevate AI branding */}
           <motion.div
             initial={{ opacity: 0, y: 16 }}
