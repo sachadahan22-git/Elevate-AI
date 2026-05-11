@@ -310,32 +310,6 @@ const FloatingIconsHero = React.forwardRef<
           )}
         </div>
 
-        {/* Scroll indicator */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 1, duration: 0.6 }}
-          className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
-        >
-          <span
-            style={{
-              fontFamily: "var(--font-mono), monospace",
-              fontSize: "0.6rem",
-              letterSpacing: "0.18em",
-              textTransform: "uppercase",
-              color: "rgba(200,98,42,0.5)",
-            }}
-          >
-            Défiler
-          </span>
-          <div
-            className="w-px h-10"
-            style={{
-              background:
-                "linear-gradient(to bottom, rgba(200,98,42,0.4), transparent)",
-            }}
-          />
-        </motion.div>
       </section>
     );
   }
